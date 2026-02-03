@@ -47,10 +47,12 @@ git clone --depth 1 --branch "$BRANCH" \
     https://github.com/paritytech/product-preview-net.git "$TARGET"
 
 # Remove unnecessary files
-rm -rf "$TARGET/.git"
-rm -rf "$TARGET/.github"
-rm -rf "$TARGET/server"
+rm -rf "$TARGET/.git" "$TARGET/.github" "$TARGET/server"
 
-echo ""
-echo "To start the network, run: \`cd $TARGET && make start\` or \`make help\` for more options."
-echo ""
+pushd "$TARGET" > /dev/null
+make ensure-deps
+popd > /dev/null
+
+echo "To start the network, run: "
+echo "cd $TARGET && make start\` or \`make help\` for more options."
+echo "or run network directly: \`BIN=${TARGET}/bin SCRIPTS=${TARGET}/scripts ${TARGET}/bin/zombie-cli spawn -p native ${TARGET}/bin/local-dev.toml"
