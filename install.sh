@@ -1,15 +1,53 @@
-# Optional branch argument
-BRANCH="${1:-}"
-BRANCH_FLAG=""
-if [ -n "$BRANCH" ]; then
-  BRANCH_FLAG="--branch $BRANCH"
+#!/bin/bash
+#
+# Product Preview Network - Quick Install
+#
+# Usage:
+#   curl -sL https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh | bash
+#   curl -sL https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh | bash -s -- [branch] [target-dir]
+#
+# Examples:
+#   bash install.sh                    # Clone to ./ppn, start network
+#   bash install.sh main               # Use specific branch
+#   bash install.sh main my-ppn        # Clone to ./my-ppn
+#   bash install.sh "" my-ppn          # Default branch, custom directory
+#
+# Prerequisites:
+#   - GitHub auth: gh auth login (or set GITHUB_TOKEN)
+#   - Node.js 20+ (for elastic scaling core assignment)
+#
+# After install, from target directory:
+#   make start   - Start the network
+#   make clean   - Remove binaries
+#   make fresh   - Clean and restart
+#   make help    - Show all commands
+#
+
+set -e
+
+BRANCH="${1:-main}"
+TARGET="${2:-ppn}"
+
+echo "Product Preview Network Installer"
+echo "================================="
+echo ""
+echo "Branch: $BRANCH"
+echo "Target: ./$TARGET"
+echo ""
+
+# Clone the repository
+if [ -d "$TARGET" ]; then
+    echo "Directory '$TARGET' already exists."
+    echo "To reinstall, remove it first: rm -rf $TARGET"
+    exit 1
 fi
 
-# Fetch and generate product-preview-net configs
-rm -rf /tmp/ppn
-git clone --depth 1 $BRANCH_FLAG https://github.com/paritytech/product-preview-net.git /tmp/ppn && \
-source /tmp/ppn/scripts/install.sh && \
-bash /tmp/ppn/scripts/fetch.sh && \
-bash /tmp/ppn/scripts/generate.sh && \
-cp /tmp/ppn/zombienet-configs/local-dev.toml ./bin/ && \
-rm -rf /tmp/ppn
+echo "Cloning product-preview-net..."
+git clone --depth 1 --branch "$BRANCH" \
+    https://github.com/paritytech/product-preview-net.git "$TARGET"
+
+echo ""
+echo "Starting network..."
+echo ""
+
+cd "$TARGET" && make start
