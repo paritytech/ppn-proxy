@@ -46,6 +46,11 @@ echo "Cloning product-preview-net..."
 git clone --depth 1 --branch "$BRANCH" \
     https://github.com/paritytech/product-preview-net.git "$TARGET"
 
+# Remove unnecessary files
+rm -rf "$TARGET/.git"
+rm -rf "$TARGET/.github"
+rm -rf "$TARGET/server"
+
 echo ""
 echo "To start the network, run: \`cd $TARGET && make start\` or \`make help\` for more options."
 echo ""
