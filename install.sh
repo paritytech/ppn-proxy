@@ -47,7 +47,5 @@ git clone --depth 1 --branch "$BRANCH" \
     https://github.com/paritytech/product-preview-net.git "$TARGET"
 
 echo ""
-echo "Starting network..."
+echo "To start the network, run: \`cd $TARGET && make start\` or \`make help\` for more options."
 echo ""
-
-cd "$TARGET" && make start
