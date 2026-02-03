@@ -53,6 +53,7 @@ pushd "$TARGET" > /dev/null
 make ensure-deps
 popd > /dev/null
 
-echo "To start the network, run: "
-echo "cd $TARGET && make start\` or \`make help\` for more options."
-echo "or run network directly: \`BIN=${TARGET}/bin SCRIPTS=${TARGET}/scripts ${TARGET}/bin/zombie-cli spawn -p native ${TARGET}/bin/local-dev.toml"
+echo ""
+echo "To start the network, run: \`cd $TARGET && make start\` or \`make help\` for more options."
+echo ""
+echo "To run network directly: \`BIN=$(realpath ${TARGET}/bin) SCRIPTS=$(realpath ${TARGET}/scripts) ${TARGET}/bin/zombie-cli spawn -p native ${TARGET}/bin/local-dev.toml\`"
