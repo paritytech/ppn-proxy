@@ -13,6 +13,14 @@ This creates a `ppn/` folder with everything needed and starts the network.
 ### Options
 
 ```bash
+# Usage: install.sh [branch] [target-dir] [version]
+
+# Pin to a specific release version
+curl -sL .../install.sh | bash -s -- main ppn v20250210.183045
+
+# Default branch/dir with specific version
+curl -sL .../install.sh | bash -s -- "" "" v20250210.183045
+
 # Custom branch
 curl -sL .../install.sh | bash -s -- my-branch
 
@@ -21,7 +29,7 @@ curl -sL .../install.sh | bash -s -- main my-network
 
 # Or download and run
 curl -sLO https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh
-bash install.sh [branch] [target-dir]
+bash install.sh [branch] [target-dir] [version]
 ```
 
 ## Prerequisites
@@ -44,11 +52,11 @@ make help     # Show all commands
 
 When running, connect to:
 
-| Chain | WebSocket |
-|-------|-----------|
-| Relay Alice | `ws://127.0.0.1:10000` |
-| Asset Hub | `ws://127.0.0.1:10020` |
+| Chain        | WebSocket              |
+| ------------ | ---------------------- |
+| Relay Alice  | `ws://127.0.0.1:10000` |
+| Asset Hub    | `ws://127.0.0.1:10020` |
 | People Chain | `ws://127.0.0.1:10010` |
-| Bulletin | `ws://127.0.0.1:10030` |
+| Bulletin     | `ws://127.0.0.1:10030` |
 
 See [product-preview-net](https://github.com/paritytech/product-preview-net) for full documentation.
