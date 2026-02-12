@@ -4,13 +4,14 @@
 #
 # Usage:
 #   curl -sL https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh | bash
-#   curl -sL https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh | bash -s -- [branch] [target-dir]
+#   curl -sL https://raw.githubusercontent.com/paritytech/ppn-proxy/main/install.sh | bash -s -- [branch] [target-dir] [ppn-tag]
 #
 # Examples:
-#   bash install.sh                    # Clone to ./ppn, start network
-#   bash install.sh main               # Use specific branch
-#   bash install.sh main my-ppn        # Clone to ./my-ppn
-#   bash install.sh "" my-ppn          # Default branch, custom directory
+#   bash install.sh                                    # Clone to ./ppn, latest release
+#   bash install.sh main                               # Use specific branch
+#   bash install.sh main my-ppn                        # Clone to ./my-ppn
+#   bash install.sh main ppn v20250210.183045          # Pin to specific release
+#   bash install.sh "" "" v20250210.183045             # Default branch/dir, specific release
 #
 # Prerequisites:
 #   - GitHub auth: gh auth login (or set GITHUB_TOKEN)
@@ -27,12 +28,16 @@ set -e
 
 BRANCH="${1:-main}"
 TARGET="${2:-ppn}"
+PPN_TAG="${3:-}"
 
 echo "Product Preview Network Installer"
 echo "================================="
 echo ""
 echo "Branch: $BRANCH"
 echo "Target: ./$TARGET"
+if [ -n "$PPN_TAG" ]; then
+    echo "PPN Tag: $PPN_TAG"
+fi
 echo ""
 
 # Clone the repository
@@ -50,7 +55,11 @@ git clone --depth 1 --branch "$BRANCH" \
 rm -rf "$TARGET/.git" "$TARGET/.github" "$TARGET/server"
 
 pushd "$TARGET" > /dev/null
-make ensure-deps
+if [ -n "$PPN_TAG" ]; then
+    PPN_TAG="$PPN_TAG" make ensure-deps
+else
+    make ensure-deps
+fi
 popd > /dev/null
 
 echo ""
