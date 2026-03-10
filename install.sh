@@ -44,7 +44,7 @@ fi
 
 echo "Cloning product-preview-net..."
 git clone --depth 1 --branch "$BRANCH" \
-    https://github.com/paritytech/product-preview-net.git "$TARGET"
+    git@github.com:paritytech/product-preview-net.git "$TARGET"
 
 # Remove unnecessary files
 rm -rf "$TARGET/.git" "$TARGET/.github" "$TARGET/server"
